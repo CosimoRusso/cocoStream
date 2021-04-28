@@ -68,6 +68,7 @@ app.get("/video/:folder", function (req, res, next){
     videoStream.pipe(res);
 })
 
-app.listen(8000, function () {
-    console.log("Listening on port 8000!");
+const port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log("Listening on port " + port);
 });
