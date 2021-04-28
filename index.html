@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coco Stream</title>
+</head>
+<body>
+    <h1>Available videos</h1>
+    <div id="video-list"></div>
+</body>
+</html>
+
+<script>
+    async function loadVideosList(){
+        let res = await fetch(`/videos`)
+        res = await res.json();
+        let newHtml = '';
+        for (let folderName of Object.keys(res)){
+            newHtml += `<h2>${folderName}</h2>`;
+            newHtml += `<ol>`;
+            for (let vid of res[folderName]){
+                const encoded = encodeURIComponent(vid);
+                newHtml += `<li><a href="/video-page/${folderName}?name=${encoded}">${vid}</a></li>`;
+            }
+            newHtml += `</ol>`;
+        }
+
+        document.getElementById(`video-list`).innerHTML = newHtml;
+
+    }
+    loadVideosList();
+
+</script>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Stream</title>
+    <style>
+        #videoPlayer{
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<video id="videoPlayer" controls autoplay loop playsinline>
+    <source src="" type="video/mp4" />
+    Your browser does not support the video tag
+</video>
+<div>
+    <input type="number" id="video-speed" value="1" onchange="onplaybackspeedchange()" />
+    <button onclick="increaseSpeed(-0.5)">-</button>
+    <button onclick="increaseSpeed(0.5)">+</button>
+</div>
+
+</body>
+</html>
+
+<script>
+    const player = document.getElementById('videoPlayer');
+    function loadVideo(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoName = encodeURIComponent(urlParams.get('name'));
+        const folder = window.location.pathname.replace('/video-page/', '');
+        player.setAttribute("src", `/video/${folder}?name=${videoName}`);
+        player.load();
+        player.play();
+    }
+    function onplaybackspeedchange(){
+        const speed = parseInt(document.getElementById('video-speed').value);
+        if (speed > 0)
+            player.playbackRate = speed;
+    }
+    function increaseSpeed(val){
+        let speed = player.playbackRate;
+        speed += val;
+        player.playbackRate = speed;
+        document.getElementById('video-speed').value = speed;
+    }
+    loadVideo();
+</script>
